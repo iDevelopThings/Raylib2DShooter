@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <NoWarn>SYSLIB0051</NoWarn>
+        <Configurations>Debug;Release;ReleaseNoProfile</Configurations>
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Always copy everything from `/Resources/` to the output directory -->
+        <Content Include="Resources\**\*.*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Update="Resources\**\*.*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Box2D.NetStandard" Version="2.4.7-alpha" />
+        <PackageReference Include="DotTiled" Version="0.3.0" />
+        <PackageReference Include="DryIoc" Version="5.4.3"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Hexa.NET.Raylib" Version="1.2.0" />
+        <PackageReference Include="Hexa.NET.ImGui" Version="2.2.3" />
+        <PackageReference Include="Hexa.NET.ImGuizmo" Version="2.2.3" />
+        <PackageReference Include="Hexa.NET.ImNodes" Version="2.2.3" />
+        <PackageReference Include="Hexa.NET.ImPlot" Version="2.2.3" />
+        <PackageReference Include="Hexa.NET.Utilities" Version="2.1.14" />
+
+        <PackageReference Include="Arch" Version="1.2.8" />
+        <PackageReference Include="Arch.System" Version="1.0.5" />
+        <PackageReference Include="Arch.System.SourceGenerator" Version="1.2.1" />
+        <PackageReference Include="Arch.Relationships" Version="1.0.1" />
+
+        <PackageReference Include="MethodBoundaryAspect.Fody" Version="2.0.149"/>
+        <PackageReference Include="MethodDecorator.Fody" Version="1.1.1"/>
+        <PackageReference Include="PropertyChanged.Fody" Version="4.1.0">
+            <PrivateAssets>all</PrivateAssets>
+<!--            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
+        </PackageReference>
+        <PackageReference Include="System.Net.Http" Version="4.3.4" />
+        <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+        <PackageReference Include="ValueVariant" Version="0.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\RLShooter-Common\RLShooter-Common.csproj" />
+        <ProjectReference Include="..\SourceGenerators\SourceGenerators\SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DefineConstants>TRACE,PROFILE</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DefineConstants>TRACE,PROFILE</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseNoProfile' ">
+      <DefineConstants>TRACE</DefineConstants>
+      <Optimize>true</Optimize>
+    </PropertyGroup>
+
+<!--    <Import Project="CMake.props"/>-->
+</Project>
