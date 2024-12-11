@@ -120,7 +120,7 @@
   &lt;Assembly Path="C:\Users\Sam8t\.nuget\packages\arch\1.2.8\lib\net8.0\Arch.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Sam8t\.nuget\packages\fennecs\0.5.14-beta\lib\net8.0\fennecs.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:Int64 x:Key="/Default/Environment/IndexEventsCount/SymbolEventsNotPersistedCount/@EntryValue">52666</s:Int64>
+	<s:Int64 x:Key="/Default/Environment/IndexEventsCount/SymbolEventsNotPersistedCount/@EntryValue">55286</s:Int64>
 	<s:Boolean x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/ShowAdvancedOptions/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestProjectMapping/=A58C2F4F_002D76CF_002D42F1_002D944F_002D53C226EBC18B/@EntryIndexedValue">86E2D9DC-D458-4CAE-B6A7-C6865000E686</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestTemplateMapping/=xUnit/@EntryIndexedValue">33ff99d8-b1ad-4ed5-a4fd-376b97c2c841</s:String>

@@ -10,6 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="38c4f587-49d9-4152-9df7-3a3aa89b5c00" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RLShooter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RLShooter/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter.sln" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="backup/arch-ecs" />
+        <entry key="$PROJECT_DIR$" value="feature/fenecs-refactor" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -64,6 +65,7 @@
     <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/e5d623ea960f2c3c9fda144954d339f8d4cd3dad6dd8bd4ab96093a010ab/Dictionary.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/e6fa2ffd422af9bf1815073eae4683b81552f92eee68ce85ced2f65eadb86/Match.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/f715697da3d6ded86e3e26ad8295d4b5f3ddb1d9c546993b76eb188a2bbf222/Sum.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ECS/QueryForeachFunctions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/IOC/bin/Debug/net9.0/IOC.deps.json" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RLShooter-Common/bin/Debug/net9.0/RLShooter-Common.deps.json" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SourceGenerators/SourceGenerators/bin/Debug/netstandard2.0/SourceGenerators.deps.json" root0="SKIP_HIGHLIGHTING" />
@@ -82,20 +84,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Project.RLShooter.executor": "Debug",
-    "0aaaed32-c240-485b-a651-a9609b470729.executor": "Debug",
-    "0c668c96-310b-4e71-bc74-704c0af30124.executor": "Debug",
-    "2c7eb1ff-ffcd-4151-82f3-db63dbc158b0.executor": "Debug",
-    "5dc52994-16ed-422a-a41c-649f27db9ace.executor": "Debug",
-    "7189303e-62c1-42ba-8edf-de0696c5008c.executor": "Debug",
-    "RunOnceActivity.git.unshallow": "true",
-    "dd00bc57-5bb8-47d3-a516-2cb27dcf3240.executor": "Debug",
-    "git-widget-placeholder": "feature/fenecs-refactor",
-    "settings.editor.selected.configurable": "preferences.general"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Project.RLShooter.executor&quot;: &quot;Debug&quot;,
+    &quot;0aaaed32-c240-485b-a651-a9609b470729.executor&quot;: &quot;Debug&quot;,
+    &quot;0c668c96-310b-4e71-bc74-704c0af30124.executor&quot;: &quot;Debug&quot;,
+    &quot;2c7eb1ff-ffcd-4151-82f3-db63dbc158b0.executor&quot;: &quot;Debug&quot;,
+    &quot;5dc52994-16ed-422a-a41c-649f27db9ace.executor&quot;: &quot;Debug&quot;,
+    &quot;7189303e-62c1-42ba-8edf-de0696c5008c.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;dd00bc57-5bb8-47d3-a516-2cb27dcf3240.executor&quot;: &quot;Debug&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/customecs-attempt&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.RLShooter">
     <configuration name="RLShooter" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -137,6 +139,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Implement fennecs attempt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement fennecs attempt" />
+    <MESSAGE value="Workspace sync" />
+    <option name="LAST_COMMIT_MESSAGE" value="Workspace sync" />
   </component>
 </project>
