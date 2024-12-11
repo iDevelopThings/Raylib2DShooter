@@ -11,3 +11,5 @@ public struct DestroyAfterTime {
         Destroyed = false;
     }
 }
+
+public struct QueuedForDestroy;

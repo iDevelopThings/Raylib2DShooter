@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Arch.Core;
 using Hexa.NET.ImGui;
 using RLShooter.App.Editor.ImGuiIntegration;
 using RLShooter.App.Profiling;

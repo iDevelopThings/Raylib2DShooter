@@ -1,7 +1,7 @@
-﻿using Arch.Core;
-using Arch.Core.Extensions;
+﻿
 using Box2D.NetStandard.Dynamics.Fixtures;
 using Box2D.NetStandard.Dynamics.World.Callbacks;
+using fennecs;
 
 namespace RLShooter.GameScene.Physics;
 
@@ -15,14 +15,14 @@ public class GameContactFilter : ContactFilter {
             return false;
 
         
-        var a = fixtureA.Body.GetUserData<EntityReference>();
-        var b = fixtureB.Body.GetUserData<EntityReference>();
+        var a = fixtureA.Body.GetUserData<Entity>();
+        var b = fixtureB.Body.GetUserData<Entity>();
         
-        if(!a.IsAlive() || !b.IsAlive())
+        if(!a.Alive || !b.Alive)
             return false;
         
-        var isWorldObject = a.Entity.Has<WorldObject>() || b.Entity.Has<WorldObject>();
-        var isProjectile  = a.Entity.Has<Projectile>() || b.Entity.Has<Projectile>();
+        var isWorldObject = a.Has<WorldObject>() || b.Has<WorldObject>();
+        var isProjectile  = a.Has<Projectile>() || b.Has<Projectile>();
 
         if (isWorldObject && isProjectile)
             return true;

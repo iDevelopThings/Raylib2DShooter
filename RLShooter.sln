@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceGenerators.Tests", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RLShooter-Common", "RLShooter-Common\RLShooter-Common.csproj", "{10CA0B1A-B82F-48BD-BCD8-105F48AD4D3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOC", "IOC\IOC.csproj", "{A58C2F4F-76CF-42F1-944F-53C226EBC18B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOC.Tests", "IOC.Tests\IOC.Tests.csproj", "{86E2D9DC-D458-4CAE-B6A7-C6865000E686}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,5 +43,17 @@ Global
 		{10CA0B1A-B82F-48BD-BCD8-105F48AD4D3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10CA0B1A-B82F-48BD-BCD8-105F48AD4D3A}.ReleaseNoProfile|Any CPU.ActiveCfg = ReleaseNoProfile|Any CPU
 		{10CA0B1A-B82F-48BD-BCD8-105F48AD4D3A}.ReleaseNoProfile|Any CPU.Build.0 = ReleaseNoProfile|Any CPU
+		{A58C2F4F-76CF-42F1-944F-53C226EBC18B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A58C2F4F-76CF-42F1-944F-53C226EBC18B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A58C2F4F-76CF-42F1-944F-53C226EBC18B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A58C2F4F-76CF-42F1-944F-53C226EBC18B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A58C2F4F-76CF-42F1-944F-53C226EBC18B}.ReleaseNoProfile|Any CPU.ActiveCfg = Debug|Any CPU
+		{A58C2F4F-76CF-42F1-944F-53C226EBC18B}.ReleaseNoProfile|Any CPU.Build.0 = Debug|Any CPU
+		{86E2D9DC-D458-4CAE-B6A7-C6865000E686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E2D9DC-D458-4CAE-B6A7-C6865000E686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E2D9DC-D458-4CAE-B6A7-C6865000E686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E2D9DC-D458-4CAE-B6A7-C6865000E686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86E2D9DC-D458-4CAE-B6A7-C6865000E686}.ReleaseNoProfile|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E2D9DC-D458-4CAE-B6A7-C6865000E686}.ReleaseNoProfile|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

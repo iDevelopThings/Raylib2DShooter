@@ -1,18 +1,15 @@
 ﻿using System.Collections.Concurrent;
-using System.Runtime.CompilerServices;
-using Arch.Core;
-using Arch.Core.Extensions;
 using Box2D.NetStandard.Dynamics.Bodies;
-using Box2D.NetStandard.Dynamics.World;
+using fennecs;
 using RLShooter.App;
-using Position = RLShooter.Gameplay.Components.Position;
+using RLShooter.Gameplay.Components;
 
 namespace RLShooter.GameScene.Physics;
 
 public struct QueuedBodyCreation {
-    public EntityReference EntityRef        { get; set; }
-    public Func<Body>      BodyCreationFunc { get; set; }
-    public Action<Body>    OnBodyCreated    { get; set; }
+    public Entity       EntityRef        { get; set; }
+    public Func<Body>   BodyCreationFunc { get; set; }
+    public Action<Body> OnBodyCreated    { get; set; }
 }
 
 [ContainerSingleton]
@@ -27,16 +24,16 @@ public class PhysicsManager : Singleton<PhysicsManager>, IDisposable {
     private Scene        Scene { get; set; }
     private PhysicsWorld World => Scene.PhysicsWorld;
 
-    private static ConcurrentQueue<QueuedBodyCreation>                  BodyCreationQueue = new();
-    private static ConcurrentQueue<KeyValuePair<EntityReference, Body>> BodyDeletionQueue = new();
+    private static ConcurrentQueue<QueuedBodyCreation>         BodyCreationQueue = new();
+    private static ConcurrentQueue<KeyValuePair<Entity, Body>> BodyDeletionQueue = new();
 
     public static void EnqueueBodyCreation(QueuedBodyCreation action)
         => BodyCreationQueue.Enqueue(action);
 
-    public static void EnqueueBodyDeletion(EntityReference entityRef, Body body) {
-        entityRef.Entity.Remove<Body>();
+    public static void EnqueueBodyDeletion(Entity entityRef, Body body) {
+        entityRef.Remove<Body>();
 
-        BodyDeletionQueue.Enqueue(new KeyValuePair<EntityReference, Body>(entityRef, body));
+        BodyDeletionQueue.Enqueue(new KeyValuePair<Entity, Body>(entityRef, body));
     }
 
     public static void StartThread(Scene scene) {
@@ -48,13 +45,6 @@ public class PhysicsManager : Singleton<PhysicsManager>, IDisposable {
         Instance.IsRunning = true;
     }
 
-    public struct VelocityUpdate : IForEach<Position, Body> {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Update(ref Position pos, ref Body body) { }
-    }
-
-    private QueryDescription queryDescription = new QueryDescription().WithAll<Position, Body>();
-
     private void Update() {
         while (IsRunning) {
 
@@ -63,16 +53,25 @@ public class PhysicsManager : Singleton<PhysicsManager>, IDisposable {
             }
 
             lock (PhysicsLock) {
+                var processed = new HashSet<Entity>();
                 while (BodyCreationQueue.TryDequeue(out var action)) {
+                    if (!processed.Add(action.EntityRef))
+                        continue;
+
                     var body = action.BodyCreationFunc();
-                    if (action.EntityRef.IsAlive()) {
-                        action.EntityRef.Entity.Add(body);
+                    if (action.EntityRef.Alive && !action.EntityRef.Has<Body>()) {
+                        action.EntityRef.Add<Body>(body);
                     }
+                    
                     action.OnBodyCreated?.Invoke(body);
                 }
             }
 
-            Scene.World.Query(queryDescription, static (Entity entity, ref Position pos, ref Body body) => {
+            var physicsEntitiesStream = Scene.World.Query<Position, Body>()
+               .Has<Body>()
+               .Stream();
+
+            physicsEntitiesStream.For((in Entity entity, ref Position pos, ref Body body) => {
                 if (body == null)
                     return;
 
@@ -87,13 +86,15 @@ public class PhysicsManager : Singleton<PhysicsManager>, IDisposable {
                 World.Step(timeStep, 8, 3);
             }
 
-            Scene.World.Query(queryDescription, static (Entity entity, ref Position pos, ref Body body) => {
+            physicsEntitiesStream = Scene.World.Query<Position, Body>()
+               .Has<Body>()
+               .Stream();
+            physicsEntitiesStream.For((in Entity entity, ref Position pos, ref Body body) => {
                 if (body == null)
                     return;
 
                 var bPos = body.GetPosition();
                 pos.Global = new Vector2(bPos.X, bPos.Y) * PhysicsConstants.PhysicsToPixelsRatio;
-
             });
 
             Thread.Sleep(16);

@@ -1,6 +1,5 @@
-﻿using Arch.Core;
-using Arch.Core.Utils;
-using Arch.System;
+﻿
+using fennecs;
 using RLShooter.App;
 using RLShooter.Gameplay.Components;
 
@@ -12,9 +11,6 @@ public class DebugSystem : BaseSystemSingleton<DebugSystem>, ISceneRenderUISyste
     public DebugSystem(World world, PhysicsWorld pworld) : base(world) {
         PhysicsWorld = pworld;
     }
-
-    private readonly QueryDescription _renderableQuery = new QueryDescription()
-       .WithAll<SpriteRenderable>();
 
     private const int MAX_BATCH_ELEMENTS = 8192;
 
@@ -42,7 +38,9 @@ public class DebugSystem : BaseSystemSingleton<DebugSystem>, ISceneRenderUISyste
 
     public void RenderUI(float delta) {
 
-        var entitiesCount = World.CountEntities(_renderableQuery);
+        var entitiesCount = World.Query<SpriteRenderable>()
+           .Stream()
+           .Count;
 
         DrawRectangle(0, 0, GetScreenWidth(), 40, Black);
         DrawText($"bunnies: {entitiesCount}", 120, 10, 20, Green);

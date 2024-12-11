@@ -1,46 +1,38 @@
 ﻿using System.Runtime.CompilerServices;
-using Arch.Core;
-using Arch.System;
 using Box2D.NetStandard.Dynamics.Bodies;
+using fennecs;
 using RLShooter.App.Profiling;
 using RLShooter.Gameplay.Components;
 using RLShooter.GameScene;
 using RLShooter.GameScene.Physics;
-using World = Arch.Core.World;
 
 namespace RLShooter.Gameplay.Systems;
 
-public class PhysicsSystem : BaseSystem<World, float>, ISceneECSSystem {
+public class PhysicsSystem : BaseSystem, ISceneECSSystem {
     private PhysicsWorld physicsWorld;
 
-    private QueryDescription MainQuery = new QueryDescription().WithAll<Position, Body>();
-
-    private World _UpdatePhysicsBodies_Initialized;
-    private Query _UpdatePhysicsBodies_Query;
 
     public PhysicsSystem(World world, PhysicsWorld pWorld) : base(world) {
         physicsWorld = pWorld;
-        
-        // Time.FixedUpdate += FixedUpdate;
     }
-    private void FixedUpdate(float t) {
+    /*private void FixedUpdate(float t) {
         using var _ = new ProfilingScope("PhysicsSystem.Update");
 
         UpdatePhysicsBodiesQuery(World, t, true, false);
 
-        using(new ProfilingScope("PhysicsSystem.Step")) {
+        using (new ProfilingScope("PhysicsSystem.Step")) {
             physicsWorld.Step(t, 2, 2);
         }
 
         UpdatePhysicsBodiesQuery(World, t, false, true);
-        
+
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void UpdatePhysicsBodiesQuery(World world, float time, bool preStep = false, bool postStep = false) {
-        
+
         using var _ = new ProfilingScope("PhysicsSystem.UpdateBodies(" + (preStep ? "pre" : "post") + "Step)");
-        
+
         if (!ReferenceEquals(_UpdatePhysicsBodies_Initialized, world)) {
             _UpdatePhysicsBodies_Query       = world.Query(in MainQuery);
             _UpdatePhysicsBodies_Initialized = world;
@@ -58,7 +50,7 @@ public class PhysicsSystem : BaseSystem<World, float>, ISceneECSSystem {
 
                 if (preStep) {
                     var vel = position.Velocity;
-                    if(float.IsNaN(vel.X) || float.IsNaN(vel.Y)) {
+                    if (float.IsNaN(vel.X) || float.IsNaN(vel.Y)) {
                         vel = Vector2.Zero;
                     }
                     body.SetLinearVelocity(vel / PhysicsConstants.PhysicsToPixelsRatio);
@@ -68,16 +60,16 @@ public class PhysicsSystem : BaseSystem<World, float>, ISceneECSSystem {
                     var pos = body.GetPosition();
                     position.Global = new Vector2(pos.X, pos.Y) * PhysicsConstants.PhysicsToPixelsRatio;
                 }
-                
+
             }
         }
     }
 
     public override void Update(in float t) {
         base.Update(in t);
-        
-        
-    }
+
+
+    }*/
 
 
 }

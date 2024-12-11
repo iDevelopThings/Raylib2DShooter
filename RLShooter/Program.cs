@@ -1,5 +1,4 @@
-﻿using Arch.Core.Extensions;
-using Box2D.NetStandard.Dynamics.Bodies;
+﻿using Box2D.NetStandard.Dynamics.Bodies;
 using Hexa.NET.ImGui;
 using RLShooter.App;
 using RLShooter.App.Assets;
@@ -16,11 +15,11 @@ Application.Init();
 
 var scene = Application.CreateScene("Root", true);
 
-CameraComponent.Create(scene.World);
+CameraComponent.Create(scene);
 
 var bulletSprite = AssetManager.LoadAsset<Texture>("Resources/Bullet.png");
 
-var playerRef = PlayerControlSystem.CreatePlayer(scene.World);
+var playerRef = PlayerControlSystem.CreatePlayer(scene);
 
 Time.SetTargetFPS(0);
 
@@ -37,32 +36,31 @@ void CreateBullet() {
     angle  += rng.NextSingle() * MathF.PI / 16 - MathF.PI / 32;
     velDir =  new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * velSpeed;
 
-    var bullet = scene.World.Create<Position, SpriteRenderable, DestroyAfterTime, Projectile>(
-        new Position(
-            ps.Muzzle,
-            // ps.AimDirection.Normalize() * 2000,
-            velDir,
-            Vector2.One * 1.5f
-        ) {
-            DestroyObjectOnZeroVelocity = true,
-            MinVelocityToDestroy        = 100,
-            VelocityDecayFactor         = 0.55f,
-        },
-        new SpriteRenderable {
-            Texture = bulletSprite,
-            Pivot   = new Vector2(0.5f, 0.5f),
-            Tint = new Color(
-                (byte) GetRandomValue(50, 240),
-                (byte) GetRandomValue(80, 240),
-                (byte) GetRandomValue(100, 240),
-                255
-            ),
-        },
-        new DestroyAfterTime(5)
-    );
+    var bullet = scene.CreateEntity("Bullet")
+           .Add(new Position(
+                    ps.Muzzle,
+                    // ps.AimDirection.Normalize() * 2000,
+                    velDir,
+                    Vector2.One * 1.5f
+                ) {
+                    DestroyObjectOnZeroVelocity = true,
+                    MinVelocityToDestroy        = 100,
+                    VelocityDecayFactor         = 0.55f,
+                })
+           .Add(new SpriteRenderable {
+                Texture = bulletSprite,
+                Pivot   = new Vector2(0.5f, 0.5f),
+                Tint = new Color(
+                    (byte) GetRandomValue(50, 240),
+                    (byte) GetRandomValue(80, 240),
+                    (byte) GetRandomValue(100, 240),
+                    255
+                ),
+            })
+           .Add(new DestroyAfterTime(5))
+           .Add<Projectile>()
+        ;
     
-    scene.InitializeEntity("Bullet", ref bullet);
-
     PhysicsManager.EnqueueBodyCreation(new QueuedBodyCreation {
         BodyCreationFunc = () => {
             var bodyDef = BodyFactory.CreateBodyDef(d => {
@@ -82,7 +80,7 @@ void CreateBullet() {
 
             return bulletBody;
         },
-        EntityRef = bullet.Reference(),
+        EntityRef = bullet,
     });
 
 }

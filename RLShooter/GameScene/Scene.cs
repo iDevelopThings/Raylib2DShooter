@@ -1,18 +1,13 @@
 ﻿using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
-using Arch.Core;
-using Arch.Core.Extensions;
-using Arch.System;
 using Box2D.NetStandard.Dynamics.Bodies;
-using DotTiled;
-using DotTiled.Serialization;
+using fennecs;
 using RLShooter.App;
 using RLShooter.App.Profiling;
 using RLShooter.Gameplay.Components;
 using RLShooter.Gameplay.Systems;
 using RLShooter.GameScene.Physics;
 using RLShooter.Utils;
-using Schedulers;
 
 namespace RLShooter.GameScene;
 
@@ -26,36 +21,25 @@ public class Scene : IDisposable {
     public  PhysicsWorld        PhysicsWorld { get; set; }
     private GameContactListener _gameContactListener;
 
-    public JobScheduler JobScheduler     { get; set; }
     public Group<float> ECSSystems       { get; set; }
     public Group<float> ECSRenderSystems { get; set; }
-
-    public Map Map { get; set; }
 
     private bool _awake = false;
 
     public static Scene Current { get; set; }
 
-    private ConcurrentQueue<EntityReference> _entitiesToDestroy = new();
+    private ConcurrentQueue<Entity> _entitiesToDestroy = new();
 
 
     public Scene(string name = "Untitled") {
         Name  = name;
-        World = World.Create();
+        World = new World();
         AppContainer.RegisterInstance(World);
 
         PhysicsWorld = new PhysicsWorld(new Vector2(0, 0));
         AppContainer.RegisterInstance(PhysicsWorld);
 
         _gameContactListener = new GameContactListener();
-
-        JobScheduler = new(
-            new JobScheduler.Config {
-                ThreadPrefixName     = "Game",
-                StrictAllocationMode = false,
-            }
-        );
-        World.SharedJobScheduler = JobScheduler;
 
         ECSSystems       = new Group<float>("GameSystems");
         ECSRenderSystems = new Group<float>("RenderSystems");
@@ -71,6 +55,7 @@ public class Scene : IDisposable {
     }
 
     public void OnInitialize() {
+
         var ecsSystems = AppContainer.ResolveMany<ISceneECSSystem>().ToList();
         foreach (var system in ecsSystems) {
             ECSSystems.Add(system);
@@ -93,26 +78,23 @@ public class Scene : IDisposable {
         CreateWall();
     }
 
-    public void InitializeEntity(string name, ref Entity entity) {
-        if (!entity.Has<Named>())
-            entity.Add<Named>(name);
+    public Entity CreateEntity(string name) {
+        var entity = World.Spawn();
 
-        if (!entity.Has<EditorFlags>())
-            entity.Add<EditorFlags>();
+        entity.Add<Named>(name);
+        entity.Add<EditorFlags>(new EditorFlags { });
 
+        return entity;
     }
 
     public void CreateWall() {
         var pos  = new Vector2(0, 0);
         var size = new Vector2(100, 1000);
 
-        var entity = World.Create<WorldObject, SolidSpriteBoxRender, Position>(
-            new WorldObject(),
-            new SolidSpriteBoxRender() {Color = Black, Size = size},
-            new Position(new Vector2(0, 0), Vector2.Zero, new Vector2(1, 1))
-        );
-
-        InitializeEntity("Wall", ref entity);
+        var entity = CreateEntity("Wall");
+        entity.Add<WorldObject>();
+        entity.Add(new SolidSpriteBoxRender {Color = Black, Size = size});
+        entity.Add(new Position(pos, Vector2.Zero, new Vector2(1, 1)));
 
         PhysicsManager.EnqueueBodyCreation(new QueuedBodyCreation {
             BodyCreationFunc = () => {
@@ -128,11 +110,11 @@ public class Scene : IDisposable {
                     def
                 );
 
-                body.SetUserData(entity.Reference());
+                body.SetUserData(entity);
 
                 return body;
             },
-            EntityRef = entity.Reference(),
+            EntityRef = entity,
         });
 
     }
@@ -175,12 +157,13 @@ public class Scene : IDisposable {
         ECSSystems.AfterUpdate(time.Delta);
 
         while (_entitiesToDestroy.TryDequeue(out var entityRef)) {
-            if (!entityRef.IsAlive())
+            if (!entityRef.Alive)
                 continue;
-            if (entityRef.Entity.Has<Body>()) {
-                PhysicsManager.EnqueueBodyDeletion(entityRef, entityRef.Entity.Get<Body>());
+            if (entityRef.Has<Body>()) {
+                PhysicsManager.EnqueueBodyDeletion(entityRef, entityRef.Get<Body>(default).First());
             }
-            World.Destroy(entityRef);
+
+            World.Despawn(entityRef);
         }
     }
 
@@ -215,30 +198,22 @@ public class Scene : IDisposable {
     }
 
     [Profile("Scene.DestroyEntity")]
-    public void Destroy(EntityReference entity) {
-        if (entity.IsAlive())
+    public void Destroy(Entity entity) {
+        if (entity.Alive)
             _entitiesToDestroy.Enqueue(entity);
     }
 
     public IEnumerable<object> GetRange(Entity start, Entity end) {
         var collect = false;
 
-        var entityIterator = new Span<Entity>();
-        World.GetEntities(new QueryDescription(), entityIterator, start.Id);
-        var ents = entityIterator.ToArray();
-
-        foreach (var current in ents) {
-            if (current == start || current == end) {
+        foreach (var entity in World.All) {
+            if (entity == start || entity == end) {
                 if (!collect) {
                     collect = true;
                 } else {
-                    yield return current.Reference();
+                    yield return entity;
                     break;
                 }
-            }
-
-            if (collect) {
-                yield return current.Reference();
             }
         }
     }

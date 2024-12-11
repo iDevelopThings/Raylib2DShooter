@@ -1,7 +1,8 @@
-﻿using Arch.Core;
-using Arch.System;
+﻿
 using DryIoc;
+using fennecs;
 using RLShooter.Common.Utils.Reflection;
+using RLShooter.Gameplay.Systems;
 
 namespace RLShooter.App;
 
@@ -44,7 +45,7 @@ public class Singleton<T> : SingletonBase where T : IDisposable, new() {
     }
 }
 
-public class BaseSystemSingleton<T> : BaseSystem<World, float> {
+public class BaseSystemSingleton<T> : BaseSystem {
     private static T _instance;
     public static T Instance {
         get {

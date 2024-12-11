@@ -1,11 +1,10 @@
-﻿using Arch.Core;
-using Arch.System;
+﻿using fennecs;
 using RLShooter.Config;
 using RLShooter.Gameplay.Systems;
 
 namespace RLShooter.App.Editor.ImGuiIntegration;
 
-public class ImGuiManagerSystem : BaseSystem<World, float>, ISceneRenderUISystem {
+public class ImGuiManagerSystem : BaseSystem, ISceneRenderUISystem {
     public ImGuiManagerSystem(World world) : base(world) { }
 
     public override void Initialize() {

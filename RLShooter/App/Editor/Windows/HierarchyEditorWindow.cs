@@ -1,11 +1,9 @@
 ﻿using System.Text;
-using Arch.Core;
-using Arch.Core.Extensions;
-using Arch.Relationships;
 using Box2D.NetStandard.Dynamics.Bodies;
+using fennecs;
 using Hexa.NET.ImGui;
+using JetBrains.Annotations;
 using RLShooter.App.Editor.ImGuiIntegration;
-using RLShooter.Common.Mathematics;
 using RLShooter.Gameplay.Components;
 using RLShooter.Gameplay.Systems;
 using RLShooter.GameScene;
@@ -13,6 +11,7 @@ using RLShooter.Utils;
 
 namespace RLShooter.App.Editor.Windows;
 
+[UsedImplicitly]
 public class HierarchyEditorWindow : EditorWindow {
     private bool   windowHovered = false;
     private string searchString  = string.Empty;
@@ -22,7 +21,6 @@ public class HierarchyEditorWindow : EditorWindow {
     private enum HierarchyLevelColoring {
         Mono,
         Color,
-        Multi
     }
 
     private HierarchyLevelColoring coloring = HierarchyLevelColoring.Color;
@@ -43,9 +41,6 @@ public class HierarchyEditorWindow : EditorWindow {
         base.OnPostDraw();
         ImGui.PopStyleVar(1);
     }
-
-    private QueryDescription _entityListDescription = new QueryDescription()
-       .WithAll<Named, EditorFlags>();
 
     protected override void OnDraw() {
         var scene = Scene.Current;
@@ -111,25 +106,29 @@ public class HierarchyEditorWindow : EditorWindow {
             DisplayNode(element, true, !element.Name.Contains(searchString), drawList, table, avail, 0, isLast);
         }*/
 
-        var entities = new List<Entity>();
-        scene.World.GetEntities(_entityListDescription, entities);
+        var query = scene.World.Query<Named, EditorFlags>()
+           .Has<Named>()
+           .Has<EditorFlags>()
+           .Stream();
 
-        for (var i = 0; i < entities.Count; i++) {
-            var entity = entities[i];
-            var name   = entity.GetEntityName();
-
-            var isLast = i == entities.Count - 1;
+        var count = query.Count;
+        var i     = 0;
+        query.For((in Entity entity, ref Named named, ref EditorFlags flags) => {
+            var isLast = i == count - 1;
 
             using var _ = new ImguiIdScope(i.ToString());
 
             DisplayNode(
-                ref entity,
+                entity,
+                entity,
                 false,
-                !name.Contains(searchString),
+                !named.Name.Contains(searchString),
                 drawList,
                 table, avail, 0, isLast
             );
-        }
+
+            i++;
+        });
 
         ImGui.PopStyleColor();
         ImGui.PopStyleColor();
@@ -146,10 +145,9 @@ public class HierarchyEditorWindow : EditorWindow {
 
     }
 
-    private static Dictionary<int, bool> _expanded = new();
-
     private void DisplayNode(
-        ref Entity    element,
+        Entity        element,
+        Entity        parent,
         bool          isRoot,
         bool          searchHidden,
         ImDrawListPtr drawList,
@@ -160,7 +158,7 @@ public class HierarchyEditorWindow : EditorWindow {
     ) {
         SetLevel(level, isLast);
 
-        ref var state = ref element.Get<EditorFlags>();
+        ref var state = ref element.Ref<EditorFlags>();
 
         // if (!element.Active) {
         //     ImGui.BeginDisabled();
@@ -183,7 +181,7 @@ public class HierarchyEditorWindow : EditorWindow {
             drawList.AddRectFilled(rect.Min, rect.Max, colHovered);
         }
 
-        if (element.HasRelationship<ParentOf>()) {
+        if (element != parent && element.Has<ParentOf>(parent)) {
             flags |= ImGuiTreeNodeFlags.Leaf;
         }
 
@@ -220,7 +218,7 @@ public class HierarchyEditorWindow : EditorWindow {
         ImGui.PushStyleColor(ImGuiCol.HeaderHovered, col);
         ImGui.PushStyleColor(ImGuiCol.HeaderActive, col);
 
-        var icon = GetIcon(ref element);
+        var icon = GetIcon(element);
 
         var isOpen = ImGui.TreeNodeEx($"{icon} {element.GetEntityName()}", flags);
         ImGui.PopStyleColor();
@@ -233,42 +231,38 @@ public class HierarchyEditorWindow : EditorWindow {
         state.OpenInEditor      = isOpen;
         state.DisplayedInEditor = true;
 
-        HandleInput(ref element, hovered);
-        DisplayNodeContextMenu(ref element);
-        HandleDragDrop(ref element);
-        DrawObjectLabels(avail, ref element);
+        HandleInput(element, hovered);
+        DisplayNodeContextMenu(element);
+        HandleDragDrop(element);
+        DrawObjectLabels(avail, element);
+
+        var childStream = Scene.Current.World.Query<ParentOf>(parent)
+           .Stream();
 
         if (isOpen) {
-            if (element.HasRelationship<ParentOf>()) {
-                ref var parentOfRelation = ref element.GetRelationships<ParentOf>();
-
-                var idx = 0;
-                foreach (var child in parentOfRelation) {
-                    var childEntity = child.Key;
-                    var relation    = child.Value;
-                    var name        = childEntity.Get<Named>().Name;
+            if (element != parent && element.Has<ParentOf>(parent)) {
+                var cidx = 0;
+                foreach (var (childEntity, relation) in childStream) {
+                    var named = childEntity.Get<Named>(Match.Any).First();
 
                     DisplayNode(
-                        ref childEntity,
+                        childEntity,
+                        element,
                         false,
-                        !name.Contains(searchString!),
+                        !named.Name.Contains(searchString!),
                         drawList, table, avail, level + 1,
                         false
                         // isLastElement
                     );
-                    idx++;
+                    cidx++;
                 }
             }
 
             ImGui.TreePop();
         } else {
-            if (element.HasRelationship<ParentOf>()) {
-                ref var parentOfRelation = ref element.GetRelationships<ParentOf>();
-                foreach (var child in parentOfRelation) {
-                    var childEntity = child.Key;
-
-                    ref var childState = ref childEntity.Get<EditorFlags>();
-                    childState.DisplayedInEditor = false;
+            if (element != parent && element.Has<ParentOf>(parent)) {
+                foreach (var (childEntity, relation) in childStream) {
+                    childEntity.SetDisplayedInEditor(false);
                 }
             }
         }
@@ -279,19 +273,19 @@ public class HierarchyEditorWindow : EditorWindow {
 
     }
 
-    private void HandleInput(ref Entity element, bool hovered) {
+    private void HandleInput(Entity element, bool hovered) {
         var isSelected = element.IsSelectedInEditor();
-        
+
         if (ImGuiP.IsMouseClicked(ImGuiMouseButton.Left)) {
             if (hovered) {
                 if (ImGui.GetIO().KeyCtrl) {
-                    SelectionCollection.Global.AddSelection(element.Reference());
+                    SelectionCollection.Global.AddSelection(element);
                 } else if (ImGui.GetIO().KeyShift) {
-                    if (SelectionCollection.Global.TryGetLast<EntityReference>(out var last)) {
+                    if (SelectionCollection.Global.TryGetLast<Entity>(out var last)) {
                         SelectionCollection.Global.AddMultipleSelection(Scene.Current.GetRange(last, element));
                     }
                 } else if (!isSelected) {
-                    SelectionCollection.Global.AddOverwriteSelection(element.Reference());
+                    SelectionCollection.Global.AddOverwriteSelection(element);
                 }
             }
         }
@@ -299,7 +293,7 @@ public class HierarchyEditorWindow : EditorWindow {
         if (hovered && ImGuiP.IsMouseClicked(ImGuiMouseButton.Right)) {
             ImGui.OpenPopup(element.GetEntityName());
             if (!isSelected && !ImGui.GetIO().KeyCtrl) {
-                SelectionCollection.Global.AddSelection(element.Reference());
+                SelectionCollection.Global.AddSelection(element);
             }
         }
 
@@ -326,7 +320,7 @@ public class HierarchyEditorWindow : EditorWindow {
         }
     }
 
-    private static void DisplayNodeContextMenu(ref Entity element) {
+    private static void DisplayNodeContextMenu(Entity element) {
         /*if (ImGui.BeginPopupContextItem(element.DebugName, ImGuiPopupFlags.MouseButtonRight)) {
             if (ImGui.MenuItem($"{UwU.MagnifyingGlassPlus} Focus")) {
                 // EngineTickContext.EditorCamera.Target = element.Transform.GlobalPosition;
@@ -370,7 +364,7 @@ public class HierarchyEditorWindow : EditorWindow {
         }*/
     }
 
-    private static void HandleDragDrop(ref Entity element) {
+    private static void HandleDragDrop(Entity element) {
         /*if (ImGui.BeginDragDropTarget()) {
             unsafe {
                 var payload = ImGui.AcceptDragDropPayload(nameof(GameObject));
@@ -399,7 +393,7 @@ public class HierarchyEditorWindow : EditorWindow {
         }*/
     }
 
-    private unsafe void DrawObjectLabels(Vector2 avail, ref Entity element) {
+    private unsafe void DrawObjectLabels(Vector2 avail, Entity element) {
         labelBuffer.Clear();
         labelOutBuffer.Clear();
 
@@ -439,7 +433,7 @@ public class HierarchyEditorWindow : EditorWindow {
         pOutStr[pOutStr.Size] = (byte) '\0';
     }
 
-    private static char GetIcon(ref Entity element) {
+    private static char GetIcon(Entity element) {
         var icon = UwU.Cube;
 
         // if (element is Light) icon = UwU.Lightbulb;

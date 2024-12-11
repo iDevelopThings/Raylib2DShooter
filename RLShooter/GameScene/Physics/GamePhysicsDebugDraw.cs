@@ -28,6 +28,7 @@ public class GamePhysicsDebugDraw : DebugDraw {
             DrawPixelV(gPos, c.ToRlColor());
         });
     }
+    [Obsolete("Look out for new calls using Vector2")]
     public override void DrawPolygon(in Vec2[] vertices, int vertexCount, in Color color) {
         var vec2s  = vertices;
         var color1 = color;
@@ -40,9 +41,11 @@ public class GamePhysicsDebugDraw : DebugDraw {
             }
         });
     }
+    [Obsolete("Look out for new calls using Vector2")]
     public override void DrawSolidPolygon(in Vec2[] vertices, int vertexCount, in Color color) {
         DrawPolygon(vertices, vertexCount, color);
     }
+    [Obsolete("Look out for new calls using Vector2")]
     public override void DrawCircle(in Vec2 center, float radius, in Color color) {
         var c = ((Vector2) center) / PhysicsConstants.PhysicsToPixelsRatio;
         var r = radius / PhysicsConstants.PhysicsToPixelsRatio;
@@ -56,9 +59,11 @@ public class GamePhysicsDebugDraw : DebugDraw {
             );
         });
     }
+    [Obsolete("Look out for new calls using Vector2")]
     public override void DrawSolidCircle(in Vec2 center, float radius, in Vec2 axis, in Color color) {
         DrawCircle(center, radius, color);
     }
+    [Obsolete("Look out for new calls using Vector2")]
     public override void DrawSegment(in Vec2 p1, in Vec2 p2, in Color color) {
         throw new NotImplementedException();
     }

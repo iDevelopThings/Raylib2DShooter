@@ -1,10 +1,11 @@
-﻿using Arch.Core;
-using Arch.Core.Extensions;
+﻿
+using fennecs;
 using RLShooter.App;
 using RLShooter.App.InputManagement;
 using RLShooter.Common.ArchExtensions;
 using RLShooter.Common.Mathematics;
 using RLShooter.Config;
+using RLShooter.GameScene;
 
 namespace RLShooter.Gameplay.Components;
 
@@ -27,8 +28,9 @@ public struct CameraComponent {
         AppConfig.CameraZoom = zoom;
     }
 
-    public static void Create(World world) {
-        var entity = world.Create(
+    public static void Create(Scene scene) {
+        var entity = scene.CreateEntity("Camera");
+        entity.Add(
             new CameraComponent {
                 Camera = new Camera2D {
                     Offset   = Vector2.Zero,
@@ -38,7 +40,6 @@ public struct CameraComponent {
                 },
             }
         );
-
         Handle = entity.GetHandle<CameraComponent>();
     }
 

@@ -24,23 +24,19 @@
     <ItemGroup>
         <PackageReference Include="Box2D.NetStandard" Version="2.4.7-alpha" />
         <PackageReference Include="DotTiled" Version="0.3.0" />
-        <PackageReference Include="DryIoc" Version="5.4.3"/>
+        <PackageReference Include="DryIoc" Version="5.4.3" />
+        <PackageReference Include="fennecs" Version="0.5.14-beta" />
         <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Hexa.NET.Raylib" Version="1.2.0" />
         <PackageReference Include="Hexa.NET.ImGui" Version="2.2.3" />
         <PackageReference Include="Hexa.NET.ImGuizmo" Version="2.2.3" />
         <PackageReference Include="Hexa.NET.ImNodes" Version="2.2.3" />
         <PackageReference Include="Hexa.NET.ImPlot" Version="2.2.3" />
-        <PackageReference Include="Hexa.NET.Utilities" Version="2.1.14" />
+        <PackageReference Include="Hexa.NET.Utilities" Version="2.2.1" />
 
-        <PackageReference Include="Arch" Version="1.2.8" />
-        <PackageReference Include="Arch.System" Version="1.0.5" />
-        <PackageReference Include="Arch.System.SourceGenerator" Version="1.2.1" />
-        <PackageReference Include="Arch.Relationships" Version="1.0.1" />
-
-        <PackageReference Include="MethodBoundaryAspect.Fody" Version="2.0.149"/>
-        <PackageReference Include="MethodDecorator.Fody" Version="1.1.1"/>
+        <PackageReference Include="MethodBoundaryAspect.Fody" Version="2.0.150" />
+        <PackageReference Include="MethodDecorator.Fody" Version="1.1.1" />
         <PackageReference Include="PropertyChanged.Fody" Version="4.1.0">
             <PrivateAssets>all</PrivateAssets>
 <!--            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
@@ -52,7 +48,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\RLShooter-Common\RLShooter-Common.csproj" />
-        <ProjectReference Include="..\SourceGenerators\SourceGenerators\SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\SourceGenerators\SourceGenerators\SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <PropertyGroup>

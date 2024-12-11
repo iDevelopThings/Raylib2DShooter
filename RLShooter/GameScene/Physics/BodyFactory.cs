@@ -1,8 +1,8 @@
-﻿using Arch.Core;
-using Arch.Core.Extensions;
+﻿
 using Box2D.NetStandard.Collision.Shapes;
 using Box2D.NetStandard.Dynamics.Bodies;
 using Box2D.NetStandard.Dynamics.Fixtures;
+using fennecs;
 
 namespace RLShooter.GameScene.Physics;
 
@@ -68,7 +68,7 @@ public class BodyFactory {
 
         var physicsBody = physicsWorld.CreateBody(bodyDef);
         physicsBody.CreateFixture(fixture);
-        physicsBody.SetUserData(entity.Reference());
+        physicsBody.SetUserData(entity);
         physicsBody.SetAwake(awake);
 
 

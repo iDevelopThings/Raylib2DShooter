@@ -1,9 +1,5 @@
-﻿using Arch.Core;
-using Arch.Core.Extensions;
-using Arch.Relationships;
-using Arch.System;
-using Arch.System.SourceGenerator;
-using Box2D.NetStandard.Dynamics.Bodies;
+﻿using Box2D.NetStandard.Dynamics.Bodies;
+using fennecs;
 using RLShooter.App;
 using RLShooter.App.Assets;
 using RLShooter.Gameplay.Components;
@@ -31,14 +27,14 @@ public struct ParentOf {
     }
 }
 
-public partial class PlayerControlSystem : BaseSystem<World, float>, ISceneECSSystem {
+public partial class PlayerControlSystem : BaseSystem, ISceneECSSystem {
 
     public PlayerControlSystem(World world) : base(world) { }
 
-    public static EntityReference        Player      { get; set; }
-    public static PlayerControlComponent PlayerState => ((Entity) Player).Get<PlayerControlComponent>();
+    public static Entity                 Player      { get; set; }
+    public static PlayerControlComponent PlayerState => Player.Get<PlayerControlComponent>(default).First();
 
-    public static EntityReference CreatePlayer(World world) {
+    public static Entity CreatePlayer(Scene scene) {
 
         var orangeCharAssets = AssetManager.LoadAssets<Texture>("Resources/Character/Orange");
         var weaponAssets     = AssetManager.LoadAssets<Texture>("Resources/Weapons");
@@ -49,15 +45,17 @@ public partial class PlayerControlSystem : BaseSystem<World, float>, ISceneECSSy
             b.fixedRotation = true;
         });
 
-        var entity = world.Create<PlayerControlComponent, Position, Body>(
-            new PlayerControlComponent(),
-            new Position(
-                new Vector2(250, 250),
-                Vector2.Zero,
-                Vector2.One
-            )
-        );
-        entity.Set(
+        var entity = scene.CreateEntity("Player")
+           .Add<PlayerControlComponent>()
+           .Add(
+                new Position(
+                    new Vector2(250, 250),
+                    Vector2.Zero,
+                    Vector2.One
+                )
+            );
+
+        entity.Add(
             BodyFactory.CreateCircularBody(
                 entity,
                 orangeCharAssets["Head_Orange"].Asset.Width,
@@ -66,57 +64,42 @@ public partial class PlayerControlSystem : BaseSystem<World, float>, ISceneECSSy
                 99
             )
         );
-        Scene.Current.InitializeEntity("Player", ref entity);
-        
-        var backpack = world.Create(
-            Position.Zero(),
-            new SpriteRenderable(orangeCharAssets["Backpack_LG_Orange"])
-        );
-        Scene.Current.InitializeEntity("Backpack", ref backpack);
-        
-        var armL = world.Create(
-            Position.Zero(),
-            new SpriteRenderable(orangeCharAssets["Arm_L_Orange"])
-        );
-        Scene.Current.InitializeEntity("Arm_L", ref armL);
-        
-        var armR = world.Create(
-            Position.Zero(),
-            new SpriteRenderable(orangeCharAssets["Arm_R_Orange"])
-        );
-        Scene.Current.InitializeEntity("Arm_R", ref armR);
-        
-        var weapon = world.Create(
-            Position.Zero(),
-            new SpriteRenderable(weaponAssets["AR"], new Vector2(0.5f, 0.5f))
-        );
-        Scene.Current.InitializeEntity("Weapon", ref weapon);
-        
-        var head = world.Create(
-            Position.Zero(),
-            new SpriteRenderable {
-                Texture = orangeCharAssets["Head_Orange"],
-            }
-        );
-        Scene.Current.InitializeEntity("Head", ref head);
 
-        entity.AddRelationship(backpack, new ParentOf(new Vector2(-11, -72)));
-        entity.AddRelationship(armL, new ParentOf(new Vector2(-51, 24)));
-        entity.AddRelationship(armR, new ParentOf(new Vector2(78, 24)));
-        entity.AddRelationship(weapon, new ParentOf(new Vector2(68, 224)));
-        entity.AddRelationship(head, new ParentOf(new Vector2(0, 0)));
+        var backpack = scene.CreateEntity("Backpack")
+           .Add<Position>(Position.Zero())
+           .Add(new SpriteRenderable(orangeCharAssets["Backpack_LG_Orange"]));
 
-        return Player = entity.Reference();
+        var armL = scene.CreateEntity("Arm_L")
+           .Add<Position>(Position.Zero())
+           .Add(new SpriteRenderable(orangeCharAssets["Arm_L_Orange"]));
+
+        var armR = scene.CreateEntity("Arm_R")
+           .Add<Position>(Position.Zero())
+           .Add(new SpriteRenderable(orangeCharAssets["Arm_R_Orange"]));
+
+        var weapon = scene.CreateEntity("Weapon")
+           .Add<Position>(Position.Zero())
+           .Add(new SpriteRenderable(weaponAssets["AR"], new Vector2(0.5f, 0.5f)));
+
+        var head = scene.CreateEntity("Head")
+           .Add<Position>(Position.Zero())
+           .Add(new SpriteRenderable(orangeCharAssets["Head_Orange"]));
+
+        entity.Add(new ParentOf(new Vector2(-11, -72)), backpack);
+        entity.Add(new ParentOf(new Vector2(-51, 24)), armL);
+        entity.Add(new ParentOf(new Vector2(78, 24)), armR);
+        entity.Add(new ParentOf(new Vector2(68, 224)), weapon);
+        entity.Add(new ParentOf(new Vector2(0, 0)), head);
+
+        return Player = entity;
     }
 
-    [Query]
-    [All<PlayerControlComponent, Position, Body>]
     public void UpdatePlayer(
-        [Data] float                  time,
-        in     Entity                 entity,
-        ref    PlayerControlComponent player,
-        ref    Position               pos,
-        ref    Body                   body
+        float                      time,
+        in  Entity                 entity,
+        ref PlayerControlComponent player,
+        ref Position               pos,
+        ref Body                   body
     ) {
         ref var camera = ref CameraComponent.Handle.Ref();
 
@@ -150,29 +133,42 @@ public partial class PlayerControlSystem : BaseSystem<World, float>, ISceneECSSy
 
         player.Muzzle = pos.Global + pos.Forward * 20;
 
+        var parentPos = pos;
+        World.Query<ParentOf>(entity)
+           .Stream()
+           .For((in Entity child, ref ParentOf relation) => {
+                ref var childPos = ref child.Ref<Position>();
 
-        ref var parentOfRelation = ref entity.GetRelationships<ParentOf>();
-        foreach (var child in parentOfRelation) {
-            var childEntity = child.Key;
-            var relation    = child.Value;
 
-            ref var childPos = ref childEntity.Get<Position>();
+                var localTransform = Matrix3x2.CreateScale(childPos.Scale) *
+                                     Matrix3x2.CreateRotation(MathF.PI / 180 * childPos.Rotation) *
+                                     Matrix3x2.CreateTranslation(relation.Offset);
 
-            var localTransform = Matrix3x2.CreateScale(childPos.Scale) *
-                                 Matrix3x2.CreateRotation(MathF.PI / 180 * childPos.Rotation) *
-                                 Matrix3x2.CreateTranslation(relation.Offset);
+                var globalTransform = localTransform * parentPos.GetGlobalTransform();
 
-            var globalTransform = localTransform * pos.GetGlobalTransform();
+                childPos.GlobalTransform = globalTransform;
+                childPos.Global          = Vector2.Transform(Vector2.Zero, globalTransform);
+                childPos.GlobalRotation  = parentPos.Rotation + childPos.Rotation;
+                childPos.GlobalScale     = parentPos.Scale * childPos.Scale;
+            });
 
-            childPos.GlobalTransform = globalTransform;
-            childPos.Global          = Vector2.Transform(Vector2.Zero, globalTransform);
-            childPos.GlobalRotation  = pos.Rotation + childPos.Rotation;
-            childPos.GlobalScale     = pos.Scale * childPos.Scale;
-
-        }
 
         camera.TargetPosition = pos.Global;
         camera.Update(time);
     }
 
+    public override void Update(in float t) {
+        base.Update(in t);
+
+        if (!Player.Alive) return;
+
+        var q = World.Query<PlayerControlComponent, Position, Body>()
+           .Stream();
+
+        var f = t;
+        q.For((in Entity entity, ref PlayerControlComponent player, ref Position pos, ref Body body) => {
+            UpdatePlayer(f, entity, ref player, ref pos, ref body);
+        });
+
+    }
 }

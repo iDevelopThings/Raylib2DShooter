@@ -1,10 +1,10 @@
-﻿using Arch.Core;
-using Arch.Core.Extensions;
+﻿
 using Box2D.NetStandard.Collision;
 using Box2D.NetStandard.Dynamics.Contacts;
 using Box2D.NetStandard.Dynamics.World;
 using Box2D.NetStandard.Dynamics.World.Callbacks;
 using System.Collections.Generic;
+using fennecs;
 
 namespace RLShooter.GameScene.Physics;
 
@@ -14,8 +14,8 @@ public class GameContactListener : ContactListener {
         if (contact.GetFixtureA().Body.UserData == null || contact.GetFixtureB().Body.UserData == null)
             return;
         
-        var a = contact.GetFixtureA().Body.GetUserData<EntityReference>();
-        var b = contact.GetFixtureB().Body.GetUserData<EntityReference>();
+        var a = contact.GetFixtureA().Body.GetUserData<Entity>();
+        var b = contact.GetFixtureB().Body.GetUserData<Entity>();
 
         Console.WriteLine("Collision started between " + a + " and " + b);
     }
@@ -24,8 +24,8 @@ public class GameContactListener : ContactListener {
         if (contact.GetFixtureA().Body.UserData == null || contact.GetFixtureB().Body.UserData == null)
             return;
         
-        var a = contact.GetFixtureA().Body.GetUserData<EntityReference>();
-        var b = contact.GetFixtureB().Body.GetUserData<EntityReference>();
+        var a = contact.GetFixtureA().Body.GetUserData<Entity>();
+        var b = contact.GetFixtureB().Body.GetUserData<Entity>();
 
         Console.WriteLine("Collision ended between " + a + " and " + b);
     }

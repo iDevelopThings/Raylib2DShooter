@@ -4,8 +4,40 @@
     <projectFile>RLShooter/RLShooter.csproj</projectFile>
     <projectFile profileName="DebugRoslynSourceGenerator">SourceGenerators/SourceGenerators/SourceGenerators.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="38c4f587-49d9-4152-9df7-3a3aa89b5c00" name="Changes" comment="" />
+    <list default="true" id="38c4f587-49d9-4152-9df7-3a3aa89b5c00" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RLShooter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RLShooter/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter-Common/ArchExtensions/ComponentHandle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter-Common/ArchExtensions/ComponentHandle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter-Common/ArchExtensions/EntityExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter-Common/ArchExtensions/EntityExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter-Common/RLShooter-Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter-Common/RLShooter-Common.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter.sln" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/App/Editor/EditorWindowManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/App/Editor/EditorWindowManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/App/Editor/ImGui/ImGuiManagerSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/App/Editor/ImGui/ImGuiManagerSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/App/Editor/Windows/HierarchyEditorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/App/Editor/Windows/HierarchyEditorWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/App/Singleton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/App/Singleton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/GameScene/Physics/BodyFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/GameScene/Physics/BodyFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/GameScene/Physics/GameContactFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/GameScene/Physics/GameContactFilter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/GameScene/Physics/GameContactListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/GameScene/Physics/GameContactListener.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/GameScene/Physics/GamePhysicsDebugDraw.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/GameScene/Physics/GamePhysicsDebugDraw.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/GameScene/Physics/PhysicsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/GameScene/Physics/PhysicsManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/GameScene/Scene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/GameScene/Scene.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Gameplay/Components/CameraComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Gameplay/Components/CameraComponent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Gameplay/Components/DestroyAfterTime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Gameplay/Components/DestroyAfterTime.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/DebugSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/DebugSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/DestroyAfterTimeSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/DestroyAfterTimeSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/ISystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/ISystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/MovementSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/MovementSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/PhysicsSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/PhysicsSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/PlayerControlSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/PlayerControlSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/RenderSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Gameplay/Systems/RenderSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/RLShooter.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/RLShooter.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RLShooter/Utils/EntityExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RLShooter/Utils/EntityExtensions.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,9 +49,49 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="backup/arch-ecs" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "iDevelopThings"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/iDevelopThings/Raylib2DShooter.git",
+    "accountId": "5595c2f4-4796-4fae-97a0-517c2b15b159"
+  }
+}]]></component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/DecompilerCache/decompiler/505d92d4dd474b5baf908fd6bb70bae4a0938/6d/78bcf928/Enumerable.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/20cf8626b1e0c929fb1e8817a3d43ea2e26c31adfe4437ae75ca3db6118bc4da/Group.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/2854ce6d56c18d0d837d3a3ef9c4f2c7c77691fa3528c8394986ac7ce7719/StackFrameIterator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/29401315ea683546a6d6d1315fcb699ca13f677e718d19e74a65b48e3b5/IdentityPool.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/30376b87b9c594204a574a157254958bf98f414cf4fb69ccd9e623399dd99/Archetype.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/4280e9a6ac118156ed8b35b557f562e7704b19e330d9adeeefed7a97686e8f20/Signature.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/4c1642cf7afdbbcfaaac824b6b7c4a5ffb772d6e8859a3e977d96fb6bb39cac5/Identity.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/4cfab43385b31e6ac261ca2f9bb1e328c67258b588c1817f3b5162a991e2e2ba/World.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/52d1c58b29b831f826af51c8e275e1d3738f77acb08f3c4836bcaba39e9b43fc/World.Deferred.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/6a423f80abb3742c37e7c99666556d9495d11d4562f83a09614cff3cb403d/Entity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/8c1e735514d151bdb97b23db36e46db0fd3fd3aaf5c3123313b98bb262515d0/Stream.2.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/aa74b2b4e9988ce29825f798c3ef4254a9bde18b81c60754798e520d5445a27/Span.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/ad1d58b8dd22123dfae3f2cf5d8b199992465c9c344d032f93a826d8e5539ff/RuntimeType.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/ad8947caaa6ee52cee818685e5441ac6e4a28c830df993d964ebd51dc489/World.API.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/be9318ad16eb395dbc2586d769bdb6fb828acb4cbbd7cd52edad7b05f8915/Stream.1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/c7d2d3a7e82773dee75f7a7dd3a9f22e9d2eaa248b7279aadb625469f4c61e9c/World.CRUD.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/d31d5e60aa6e8a57c2c152af353e32eca5ca638aa40f0a0e347424e12eaa339/World.Builders.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/db741e93b241b826c943c52cc9beecb2ff444e3dd1d861c83f3bedd6aed09fa3/Storage.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/df654f3cbcbe66cd86840158adcee10f3b87134b19bb44130e8d9cf7824a4b0/Delegates.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/e5d623ea960f2c3c9fda144954d339f8d4cd3dad6dd8bd4ab96093a010ab/Dictionary.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/e6fa2ffd422af9bf1815073eae4683b81552f92eee68ce85ced2f65eadb86/Match.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/f715697da3d6ded86e3e26ad8295d4b5f3ddb1d9c546993b76eb188a2bbf222/Sum.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RLShooter-Common/bin/Debug/net9.0/RLShooter-Common.deps.json" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SourceGenerators/SourceGenerators/bin/Debug/netstandard2.0/SourceGenerators.deps.json" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -29,7 +101,9 @@
   "associatedIndex": 8
 }]]></component>
   <component name="ProjectId" id="2q2rk1MLwOZjLH3vNavjlbIjkeT" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -37,7 +111,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "main",
+    ".NET Project.RLShooter.executor": "Debug",
+    "0aaaed32-c240-485b-a651-a9609b470729.executor": "Debug",
+    "0c668c96-310b-4e71-bc74-704c0af30124.executor": "Debug",
+    "2c7eb1ff-ffcd-4151-82f3-db63dbc158b0.executor": "Debug",
+    "5dc52994-16ed-422a-a41c-649f27db9ace.executor": "Debug",
+    "7189303e-62c1-42ba-8edf-de0696c5008c.executor": "Debug",
+    "dd00bc57-5bb8-47d3-a516-2cb27dcf3240.executor": "Debug",
+    "git-widget-placeholder": "feature/fenecs-refactor",
     "settings.editor.selected.configurable": "preferences.general"
   }
 }]]></component>
